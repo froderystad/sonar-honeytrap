@@ -9,6 +9,12 @@
     <packaging>jar</packaging>
     <name>Sonar Honey Trap</name>
 
+    <properties>
+        <jacoco.out.path>${session.executionRootDirectory}/target</jacoco.out.path>
+        <jacoco.out.file>jacoco.exec</jacoco.out.file>
+        <sonar.jacoco.itReportPath>${env.WORKSPACE}/target/${jacoco.out.file}</sonar.jacoco.itReportPath>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -27,6 +33,23 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.6.3.201306030806</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${jacoco.out.path}/${jacoco.out.file}</destFile>
+                            <propertyName>jacoco.agent.arg</propertyName>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
